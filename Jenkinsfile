@@ -1,3 +1,15 @@
+def label = "jenkins-slave"
+
+podTemplate(label: label, containers: [
+  
+  containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true)
+  
+],
+volumes: [
+  hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
+]) {
+
+
 node('jenkins-slave') {
     def mvnHome = tool 'maven3'
     
@@ -65,4 +77,5 @@ stage('deploy APP') {
        *     build job: 'customer-service-pipeline', wait: false
         }*/ 
   	
+}
 }
