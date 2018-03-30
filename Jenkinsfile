@@ -39,8 +39,13 @@ stage('deploy APP') {
   	    sh("kubectl apply -f /tools/maven_repository/atlas_app_service.yaml")
   	}
   	
-  	
+  	stage('Create Docker images') {
+      container('docker') {
+        sh ("docker build -t total/myapp:4.4 .")
+        }
+      }
   	stage('Build Docker Image') {
+		sh ("docker build -t total/myapp:4.4 .")
     	app = docker.build("total/myapp")
     }
     
