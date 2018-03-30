@@ -22,6 +22,10 @@ node('jenkins-slave') {
   	/*stage('deploy') {
     *	sh "${mvnHome}/bin/mvn deploy"
     *} */
+stage('deploy APP') {
+  	    sh("kubectl apply -f /tools/maven_repository/atlas_app_deploy.yaml")
+  	    sh("kubectl apply -f /tools/maven_repository/atlas_app_service.yaml")
+  	}
   	
   	
   	stage('Build Docker Image') {
