@@ -67,4 +67,3 @@ stage('deploy APP') {
         }*/ 
   	
 }
-}
