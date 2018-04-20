@@ -24,10 +24,11 @@ node('jenkins-slave') {
     *}
     */
      stage('Build Docker Image') {
-        /* sleep(60) */
- 	app = docker.build("${image}:${env.CHANGE_ID}:${currentBuild.displayName}")
+         sleep(60) 
+ 	/*app = docker.build("${image}:${env.CHANGE_ID}:${currentBuild.displayName}")
      	app = docker.build("${image}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}")
-    }
+    */
+     }
      
   	post {
         always {
