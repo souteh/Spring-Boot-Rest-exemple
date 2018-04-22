@@ -1,7 +1,7 @@
 node('jenkins-slave') {
 	try {
 		def mvnHome = tool 'maven3'
-		def prject_name = "total/atlas-app"
+		def project_name = "total/atlas-app"
 
 		stage('Checkout') {
 			checkout scm
@@ -31,7 +31,7 @@ node('jenkins-slave') {
 		}
 
 		stage('Build Docker Image') {
-			app = docker.build("${image}:${env.BRANCH_NAME}")
+			app = docker.build("${project_name}:${env.BRANCH_NAME}")
 		}
 
 		stage('Test image') {
