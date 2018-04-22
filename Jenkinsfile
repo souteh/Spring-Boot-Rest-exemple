@@ -1,6 +1,6 @@
 node('jenkins-slave') {
     try {
-        echo 'Cisnake 1'
+        echo 'Cisnake 11'
         def mvnHome = tool 'maven3'
         def kaka
         /* def VERSION=$(date %Ym%d%H%M%S).git.$GIT_REVISION */
