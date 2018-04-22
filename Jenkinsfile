@@ -78,7 +78,7 @@ def notifyBuild(String buildStatus = 'STARTED') {
 	// build status of null means successful
    	buildStatus =  buildStatus ?: 'SUCCESSFUL'
  	echo 'Cisnake 51'
-	echo ${currentBuild.result}
+	echo '${currentBuild.result}'
 	echo 'Cisnake 52'
 	// Default values
    	//def colorName = 'RED'
