@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: atlas-ms
+  namespace: atlas-app
+  labels:
+    name: atlas-ms
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: atlas-ms
+      labels:
+        app: atlas-ms
+    spec:
+      containers:
+        - image: total/atlas-app:master.36
+          name: atlas-ps
+          ports:
+            - containerPort: 8090
+              name: msport1
+            - containerPort: 8091
+              name: msport2
+              #resources:
+              # limits:
+              #cpu: 100m
+              #memory: 200Mi
+              # requests:
+              #cpu: 100m
+              #memory: 200Mi
