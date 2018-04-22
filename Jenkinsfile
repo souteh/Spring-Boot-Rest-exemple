@@ -48,7 +48,7 @@ node('jenkins-slave') {
 			sh("kubectl apply -f atlas_app_service.yaml")
 			sh("kubectl apply -f atlas_app_ingress.yaml")
 		}
-	catch(catch (e) {
+	} catch (e) {
        		// If there was an exception thrown, the build failed
 	    	currentBuild.result = "FAILED"
         	throw e
