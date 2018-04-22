@@ -31,7 +31,7 @@ node('jenkins-slave') {
 		}
 
 		stage('Build Docker Image') {
-			app = docker.build("${image}:${env.BRANCH_NAME})
+			app = docker.build("${image}:${env.BRANCH_NAME}")
 		}
 
 		stage('Test image') {
