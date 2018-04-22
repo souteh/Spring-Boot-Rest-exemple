@@ -1,6 +1,6 @@
 node('jenkins-slave') {
     try {
-        
+        echo 'Cisnake 1'
         def mvnHome = tool 'maven3'
         def kaka
         /* def VERSION=$(date %Ym%d%H%M%S).git.$GIT_REVISION */
@@ -11,6 +11,7 @@ node('jenkins-slave') {
             def toto = checkout scm
             def titi = toto.GIT_COMMIT
             kaka = toto
+		echo 'Cisnake 2'
         }
         
         stage('Build Docker Image') {
@@ -64,10 +65,12 @@ node('jenkins-slave') {
    
     } catch (e) {
         // If there was an exception thrown, the build failed
+	    echo 'Cisnake 3'
         currentBuild.result = "FAILED"
         throw e
    } finally {
      // Success or failure, always send notifications
+	    echo 'Cisnake 4'
      notifyBuild(currentBuild.result)
    }
 }
@@ -75,7 +78,7 @@ node('jenkins-slave') {
 def notifyBuild(String buildStatus = 'STARTED') {
    // build status of null means successful
    buildStatus =  buildStatus ?: 'SUCCESSFUL'
- 
+ echo 'Cisnake 5'
    // Default values
    def colorName = 'RED'
    def colorCode = '#FF0000'
