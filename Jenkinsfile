@@ -43,9 +43,8 @@ node('jenkins-slave') {
         }
   	    
         stage('Build Docker Image') {
-		    /* sh ("docker build -t total/myapp:4.4 .") */
-    	    app = docker.build("${image}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}")
-            app = docker.build("${image}:latest")
+	    /* sh ("docker build -t total/myapp:4.4 .") */
+    	    app = docker.build("${image}:${env.BRANCH_NAME}")
         }
     
         stage('Test image') {
