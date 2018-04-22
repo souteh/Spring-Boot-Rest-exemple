@@ -54,7 +54,7 @@ node('jenkins-slave') {
         	throw e
    	} finally {
      		// Success or failure, always send notifications
-	    	NotifyBuild(currentBuild.result)
+	    	notifyBuild(currentBuild.result)
    	}
 }
 
