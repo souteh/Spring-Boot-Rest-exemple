@@ -14,10 +14,10 @@ node('jenkins-slave') {
 		echo 'Cisnake 2'
         }
         
-        stage('Build Docker Image') {
-        	app = docker.build("${image}:${env}:${currentBuild}")
-            app = docker.build("${image}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}")
-        }
+       // stage('Build Docker Image') {
+       // 	app = docker.build("${image}:${env}:${currentBuild}")
+       //     app = docker.build("${image}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}")
+       // }
     
         stage('Build') {
             sh "${mvnHome}/bin/mvn clean install -DskipTests"
