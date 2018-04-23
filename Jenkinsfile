@@ -68,17 +68,21 @@ def notifyBuild(String buildStatus = 'STARTED') {
      		<p>Check console output at "<a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>"</p>"""
    	def mailRecipients = "amine9@gmail.com"
    	
+	def myProviders ; //= [ [$class: 'CulpritsRecipientProvider'], [$class: 'DevelopersRecipientProvider'] ];
+
 	if (buildStatus == 'SUCCESSFUL') {
      		echo 'amine1'
+		myProviders = [ [$class: 'CulpritsRecipientProvider'] ];
    	} else {
      		echo 'amine2'
+		myProviders = [ [$class: 'DevelopersRecipientProvider'] ];
    	}
 	emailext (
            subject: subject,
            body: details,
            to: "${mailRecipients}",
-	   replyTo: "${mailRecipients}"
-           /* recipientProviders: [[$class: 'DevelopersRecipientProvider']] */
+	   //replyTo: "${mailRecipients}"
+           recipientProviders: myProviders
      	)
 }
 
