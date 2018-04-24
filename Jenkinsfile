@@ -1,8 +1,11 @@
 node('jenkins-slave') {
 	try {
 		def mvnHome = tool 'maven3'
-		def project_name = "total/atlas-app"
-		echo 'debut ...'
+		def project = "total"
+		def appName = "atlas-app"
+  		def imageTag = "${project}/${appName}:${env.BRANCH_NAME}"
+  		echo 'debut ...'
+		
 		stage('Checkout') {
 			checkout scm
 		}
@@ -31,7 +34,7 @@ node('jenkins-slave') {
 		//}
 
 		stage('Build Docker Image') {
-			app = docker.build("${project_name}:${env.BRANCH_NAME}")
+			app = docker.build("${imageTag}")
 		}
 
 		//stage('Test image') {
@@ -44,9 +47,16 @@ node('jenkins-slave') {
 		//}
 
 		stage('deploy APP') {
-			sh("kubectl apply -f atlas_app_deploy.yaml")
-			sh("kubectl apply -f atlas_app_service.yaml")
-			sh("kubectl apply -f atlas_app_ingress.yaml")
+			def namespace
+			if (env.BRANCH_NAME == 'master') {
+     				echo 'branch master'
+   			} else {
+     				echo 'other branch'
+     				namespace = "qualif"
+     				sh("sed -i.bak 's#IMAGE_TAG#${imageTag}#' ./k8s/*.yaml")
+		   	}
+			
+			sh("kubectl apply -n ${namespace} -f ./k8s/*.yaml")
 		}
 	} catch (e) {
        		// If there was an exception thrown, the build failed
