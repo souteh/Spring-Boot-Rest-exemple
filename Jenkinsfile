@@ -56,7 +56,7 @@ node('jenkins-slave') {
      				sh("sed -i.bak 's#IMAGE_TAG#${imageTag}#' ./k8s/*.yaml")
 		   	}
 			
-			sh("kubectl apply -n ${namespace} -f ./k8s/*.yaml")
+			sh("kubectl apply -n ${namespace} -f ./k8s")
 		}
 	} catch (e) {
        		// If there was an exception thrown, the build failed
@@ -87,7 +87,7 @@ def notifyBuild(String buildStatus = 'STARTED') {
      		echo 'amine2'
 		myProviders = [ [$class: 'DevelopersRecipientProvider'] ];
    	}
-	echo "${DEFAULT_RECIPIENTS}"
+	//echo "${DEFAULT_RECIPIENTS}"
 	myProviders = [ [$class: 'ListRecipientProvider'] ];
 	emailext (
            subject: subject,
