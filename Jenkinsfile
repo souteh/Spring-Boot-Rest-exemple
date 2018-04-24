@@ -54,7 +54,7 @@ node('jenkins-slave') {
      				
    			} else {
      				echo 'other branch test'
-     				input message: 'Approve deployment?'
+     				input message: 'Approve deployment 1?'
      				namespace = "qualif"
      				
 		   	}
