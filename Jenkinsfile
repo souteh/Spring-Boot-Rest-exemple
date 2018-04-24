@@ -50,12 +50,15 @@ node('jenkins-slave') {
 			def namespace
 			if (env.BRANCH_NAME == 'master') {
      				echo 'branch master'
+     				namespace = "staging"
+     				
    			} else {
      				echo 'other branch'
+     				input message: 'Approve deployment?'
      				namespace = "qualif"
-     				sh("sed -i.bak 's#IMAGE_TAG#${imageTag}#' ./k8s/*.yaml")
+     				
 		   	}
-			
+			sh("sed -i.bak 's#IMAGE_TAG#${imageTag}#' ./k8s/*.yaml")
 			sh("kubectl apply -n ${namespace} -f ./k8s")
 		}
 	} catch (e) {
