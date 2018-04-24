@@ -53,7 +53,7 @@ node('jenkins-slave') {
      				namespace = "staging"
      				
    			} else {
-     				echo 'other branch'
+     				echo 'other branch test'
      				input message: 'Approve deployment?'
      				namespace = "qualif"
      				
