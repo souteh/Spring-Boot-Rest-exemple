@@ -1,7 +1,9 @@
 node('jenkins-slave') {
 	try {
 		def mvnHome = tool 'maven3'
-		def project_name = "total/atlas-app"
+		def project = "total"
+		def appName = "atlas-app"
+  		def imageTag = "${project}/${appName}:${env.BRANCH_NAME}"
 
 		stage('Checkout') {
 			checkout scm
@@ -31,7 +33,7 @@ node('jenkins-slave') {
 		}
 
 		stage('Build Docker Image') {
-			app = docker.build("${project_name}:${env.BRANCH_NAME}")
+			app = docker.build("${imageTag}")
 		}
 
 		stage('Test image') {
@@ -44,6 +46,11 @@ node('jenkins-slave') {
 		}
 
 		stage('deploy APP') {
+			if (env.BRANCH_NAME == 'master') {
+     				echo 'branch master'
+   			} else {
+     				echo 'other branch'
+		   	}
 			sh("kubectl apply -f atlas_app_deploy.yaml")
 			sh("kubectl apply -f atlas_app_service.yaml")
 			sh("kubectl apply -f atlas_app_ingress.yaml")
