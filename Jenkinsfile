@@ -4,9 +4,9 @@ node('jenkins-slave') {
 		def mvnHome = tool 'maven3'
 		def project = "total"
 		def appName = "atlas-app"
-  		def imageTag = "${project}/${appName}:${env.BRANCH_NAME}"
-  		echo 'debut ...'
-		
+ 		def imageTag = "${project}/${appName}:${env.BRANCH_NAME}"
+ 		echo 'debut ...'
+
 		stage('Checkout') {
 			echo 'Pulling... ' + env.BRANCH_NAME
 			checkout scm
@@ -134,6 +134,7 @@ def notifyBuild(String buildStatus = 'STARTED') {
    	} else {
      		echo 'amine2'
 		myProviders = [ [$class: 'DevelopersRecipientProvider'] ];
+
    	}
 	
 	emailext (
