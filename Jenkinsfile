@@ -60,7 +60,7 @@ node('jenkins-slave') {
      				
    			} else {
      				echo 'Deploy to Qualif Environnement' + env.BRANCH_NAME
-     				namespace = ${env.BRANCH_NAME}
+     				namespace = "${env.BRANCH_NAME}"
      				
 		   	}
 		   	// Create namespace if it doesn't exist
