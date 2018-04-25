@@ -16,7 +16,7 @@ node('jenkins-slave') {
 		stage('Build') {
 			echo 'Start Build...'
 			sh "${mvnHome}/bin/mvn clean install -DskipTests"
-			echo 'END Build'
+			echo 'END Build   '
 		}
 
 		//stage('Unit Test') {
