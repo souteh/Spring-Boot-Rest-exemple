@@ -135,14 +135,12 @@ def notifyBuild(String buildStatus = 'STARTED') {
      		echo 'amine2'
 		myProviders = [ [$class: 'DevelopersRecipientProvider'] ];
    	}
-	//echo "${DEFAULT_RECIPIENTS}"
-	myProviders = [ [$class: 'ListRecipientProvider'] ];
+	
 	emailext (
            subject: subject,
            body: details,
            to: "${mailRecipients}",
-	   //replyTo: "${mailRecipients}"
-           recipientProviders: myProviders
-     	)
+	       recipientProviders: myProviders
+     )
 }
 
