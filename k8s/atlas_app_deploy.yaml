@@ -2,11 +2,11 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: atlas-ms
-  namespace: atlas-app
+  # namespace: atlas-app
   labels:
     name: atlas-ms
 spec:
-  replicas: 1
+  replicas: 3
   template:
     metadata:
       name: atlas-ms
@@ -14,7 +14,7 @@ spec:
         app: atlas-ms
     spec:
       containers:
-        - image: total/atlas-app:master.36
+        - image: IMAGE_TAG
           name: atlas-ps
           ports:
             - containerPort: 8090
