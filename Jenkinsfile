@@ -8,7 +8,7 @@ node('jenkins-slave') {
   		echo 'debut ...'
 		
 		stage('Checkout') {
-			echo 'Pulling... ' + ${env.BRANCH_NAME}
+			echo 'Pulling.... ' + ${env.BRANCH_NAME}
 			checkout scm
 			echo 'END Pulling SCM'
 		}
