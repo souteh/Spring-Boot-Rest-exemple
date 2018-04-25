@@ -1,5 +1,6 @@
 node('jenkins-slave') {
 	try {
+	
 		def mvnHome = tool 'maven3'
 		def project = "total"
 		def appName = "atlas-app"
@@ -7,11 +8,15 @@ node('jenkins-slave') {
   		echo 'debut ...'
 		
 		stage('Checkout') {
+			echo 'Pulling... ' + ${env.BRANCH_NAME}
 			checkout scm
+			echo 'END Pulling SCM'
 		}
 
 		stage('Build') {
+			echo 'Start Build...'
 			sh "${mvnHome}/bin/mvn clean install -DskipTests"
+			echi 'END Build'
 		}
 
 		//stage('Unit Test') {
@@ -47,20 +52,35 @@ node('jenkins-slave') {
 		//}
 
 		stage('deploy APP') {
+			echo 'Deploy APP from branch ... ' + ${env.BRANCH_NAME}
 			def namespace
 			if (env.BRANCH_NAME == 'master') {
-     				echo 'branch master'
+     				echo 'Deploy to Stagging Environnement'
      				namespace = "staging"
      				
    			} else {
-     				echo 'other branch test'
-     				input message: 'Approve deployment 2?'
-     				namespace = "qualif"
+     				echo 'Deploy to Qualif Environnement' + ${env.BRANCH_NAME}
+     				namespace = ${env.BRANCH_NAME}
      				
 		   	}
+		   	// Create namespace if it doesn't exist
+        	sh("kubectl get ns ${namespace} || kubectl create ns ${namespace}")
 			sh("sed -i.bak 's#IMAGE_TAG#${imageTag}#' ./k8s/*.yaml")
 			sh("kubectl apply -n ${namespace} -f ./k8s")
 		}
+		
+		if (env.BRANCH_NAME == 'master') {
+     		echo 'Deploy to Production Environnement ....'
+     		echo 'waiting for approval ...'
+     		input message: 'Approve Production deployment ?'
+     		stage('PROD Deploy') {
+     			namespace = "production"
+     			sh("sed -i.bak 's#IMAGE_TAG#${imageTag}#' ./k8s/*.yaml")
+				sh("kubectl apply -n ${namespace} -f ./k8s")
+     		}
+     		
+     				
+   		} 
 	} catch (e) {
        		// If there was an exception thrown, the build failed
 	    	currentBuild.result = "FAILED"
@@ -69,6 +89,31 @@ node('jenkins-slave') {
      		// Success or failure, always send notifications
 	    	notifyBuild(currentBuild.result)
    	}
+}
+
+def getDevVersion() {
+    def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+    def versionNumber;
+    if (gitCommit == null) {
+        versionNumber = env.BUILD_NUMBER;
+    } else {
+        versionNumber = gitCommit.take(8);
+    }
+    print 'build  versions...'
+    print versionNumber
+    return versionNumber
+}
+
+def getReleaseVersion() {
+    def pom = readMavenPom file: 'pom.xml'
+    def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+    def versionNumber;
+    if (gitCommit == null) {
+        versionNumber = env.BUILD_NUMBER;
+    } else {
+        versionNumber = gitCommit.take(8);
+    }
+    return pom.version.replace("-SNAPSHOT", ".${versionNumber}")
 }
 
 def notifyBuild(String buildStatus = 'STARTED') {
