@@ -8,7 +8,7 @@ node('jenkins-slave') {
   		echo 'debut ...'
 		
 		stage('Checkout') {
-			echo 'Pulling... ' + ${env.BRANCH_NAME}
+			echo 'Pulling... ' + env.BRANCH_NAME
 			checkout scm
 			echo 'END Pulling SCM'
 		}
@@ -52,14 +52,14 @@ node('jenkins-slave') {
 		//}
 
 		stage('deploy APP') {
-			echo 'Deploy APP from branch ... ' + ${env.BRANCH_NAME}
+			echo 'Deploy APP from branch ... ' + env.BRANCH_NAME
 			def namespace
 			if (env.BRANCH_NAME == 'master') {
      				echo 'Deploy to Stagging Environnement'
      				namespace = "staging"
      				
    			} else {
-     				echo 'Deploy to Qualif Environnement' + ${env.BRANCH_NAME}
+     				echo 'Deploy to Qualif Environnement' + env.BRANCH_NAME
      				namespace = ${env.BRANCH_NAME}
      				
 		   	}
