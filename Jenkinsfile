@@ -39,12 +39,12 @@ node('jenkins-slave') {
 		//}
 
 		stage('Build Docker Image') {
-			if (env.BRANCH_NAME == 'master') {
-				def version = getReleaseVersion()
-				imageTag = "${project}/${appName}:${version}"
-			} else {
-				imageTag = "${project}/${appName}:${env.BRANCH_NAME}"
-			}
+			//if (env.BRANCH_NAME == 'master') {
+		//		def version = getReleaseVersion()
+		//		imageTag = "${project}/${appName}:${version}"
+		//	} else {
+		//		imageTag = "${project}/${appName}:${env.BRANCH_NAME}"
+		//	}
 			
 			app = docker.build("${imageTag}")
 		}
