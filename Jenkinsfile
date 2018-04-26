@@ -4,7 +4,7 @@ node('jenkins-slave') {
 		def mvnHome = tool 'maven3'
 		def project = "total"
 		def appName = "atlas-app"
- 		def imageTag = "${project}/${appName}:${env.BRANCH_NAME}"
+ 		def imageTag
  		echo 'debut ...'
 
 		stage('Checkout') {
@@ -39,6 +39,13 @@ node('jenkins-slave') {
 		//}
 
 		stage('Build Docker Image') {
+			if (env.BRANCH_NAME == 'master') {
+				def version = getReleaseVersion()
+				imageTag = "${project}/${appName}:${version}"
+			} else {
+				imageTag = "${project}/${appName}:${env.BRANCH_NAME}"
+			}
+			
 			app = docker.build("${imageTag}")
 		}
 
@@ -64,22 +71,20 @@ node('jenkins-slave') {
      				
 		   	}
 		   	// Create namespace if it doesn't exist
-        	sh("kubectl get ns ${namespace} || kubectl create ns ${namespace}")
+        		sh("kubectl get ns ${namespace} || kubectl create ns ${namespace}")
 			sh("sed -i.bak 's#IMAGE_TAG#${imageTag}#' ./k8s/*.yaml")
 			sh("kubectl apply -n ${namespace} -f ./k8s")
 		}
-		
-		if (env.BRANCH_NAME == 'master') {
-     		echo 'Deploy to Production Environnement ....'
-     		echo 'waiting for approval ...'
-     		input message: 'Approve Production deployment ?'
+				
      		stage('PROD Deploy') {
-     			namespace = "production"
-     			sh("sed -i.bak 's#IMAGE_TAG#${imageTag}#' ./k8s/*.yaml")
+     			if (env.BRANCH_NAME == 'master') {
+     				echo 'Deploy to Production Environnement ....'
+     				echo 'waiting for approval ...'
+     				input message: 'Approve Production deployment ?'
+				namespace = "production"
+     				sh("sed -i.bak 's#IMAGE_TAG#${imageTag}#' ./k8s/*.yaml")
 				sh("kubectl apply -n ${namespace} -f ./k8s")
-     		}
-     		
-     				
+     			}   				
    		} 
 	} catch (e) {
        		// If there was an exception thrown, the build failed
