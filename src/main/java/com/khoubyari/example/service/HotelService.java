@@ -35,12 +35,20 @@ public class HotelService {
         return hotelRepository.save(hotel);
     }
 
-    public Hotel getHotel(long id) {
+    			public Hotel getHotel(long id) {
+        int i;
+        
+        if(false) {
+        	int k;
+        }
+        
+        System.out.println("tetet");
         return hotelRepository.findOne(id);
+        
     }
 
     public void updateHotel(Hotel hotel) {
-        hotelRepository.save(hotel);
+    hotelRepository.save(hotel);
     }
 
     public void deleteHotel(Long id) {
