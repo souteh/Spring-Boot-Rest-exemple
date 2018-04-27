@@ -33,6 +33,7 @@ public class HotelService {
 
     public Hotel createHotel(Hotel hotel) {
         return hotelRepository.save(hotel);
+        
     }
 
     			public Hotel getHotel(long id) {
