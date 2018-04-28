@@ -80,10 +80,10 @@ node('jenkins-slave') {
      			if (env.BRANCH_NAME == 'master') {
      				echo 'Deploy to Production Environnement ....'
      				echo 'waiting for approval ...'
-     				input message: 'Approve Production deployment ?'
-				namespace = "production"
-     				sh("sed -i.bak 's#IMAGE_TAG#${imageTag}#' ./k8s/*.yaml")
-				sh("kubectl apply -n ${namespace} -f ./k8s")
+     				// input message: 'Approve Production deployment ?'
+				// namespace = "production"
+     				// sh("sed -i.bak 's#IMAGE_TAG#${imageTag}#' ./k8s/*.yaml")
+				// sh("kubectl apply -n ${namespace} -f ./k8s")
      			}   				
    		} 
 	} catch (e) {
