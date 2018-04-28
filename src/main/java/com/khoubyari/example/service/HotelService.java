@@ -29,6 +29,7 @@ public class HotelService {
     GaugeService gaugeService;
 
     public HotelService() {
+    	
     }
 
     public Hotel createHotel(Hotel hotel) {
