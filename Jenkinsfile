@@ -43,7 +43,7 @@ node('jenkins-slave') {
 		//		def version = getReleaseVersion()
 		//		imageTag = "${project}/${appName}:${version}"
 		//	} else {
-		//		imageTag = "${project}/${appName}:${env.BRANCH_NAME}"
+				imageTag = "${project}/${appName}:${env.BRANCH_NAME}"
 		//	}
 			
 			app = docker.build("${imageTag}")
