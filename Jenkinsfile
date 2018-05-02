@@ -11,8 +11,8 @@ node('jenkins-slave') {
 			echo 'Pulling... ' + env.BRANCH_NAME
 			checkout scm
 			echo 'END Pulling SCM'
-			def project = new XmlSlurper().parseText(readFile('pom.xml'))
-			def pomv = project.version.text()
+			def project1 = new XmlSlurper().parseText(readFile('pom.xml'))
+			def pomv = project1.version.text()
 			echo 'END Pulling SCM ---------------------' + pomv
 		}
 
