@@ -1,5 +1,5 @@
-@Library('jenkins-pipeline-util-lib')
-import se.henrrich.ci.*
+//@Library('jenkins-pipeline-util-lib')
+//import se.henrrich.ci.*
 	
 node('jenkins-slave') {
 	try {
