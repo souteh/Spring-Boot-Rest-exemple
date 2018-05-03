@@ -1,7 +1,9 @@
+@Library('jenkins-pipeline-util-lib')
+import se.henrrich.ci.*
+	
 node('jenkins-slave') {
 	try {
-	@Library('jenkins-pipeline-util-lib')
-import se.henrrich.ci.*
+	
 		def mvnHome = tool 'maven3'
 		def project = "total"
 		def appName = "atlas-app"
