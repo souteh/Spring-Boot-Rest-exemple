@@ -12,6 +12,7 @@ node('jenkins-slave') {
 			checkout scm
 			echo 'END Pulling SCM'
 			def project1 = new XmlSlurper().parseText(readFile('pom.xml'))
+			echo 'END Pulling SCM 1' + pomv
 			def pomv = project1.version.text()
 			echo 'END Pulling SCM ---------------------' + pomv
 		}
