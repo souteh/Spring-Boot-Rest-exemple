@@ -88,10 +88,11 @@ node('jenkins-slave') {
 	} catch (e) {
        		// If there was an exception thrown, the build failed
 	    	currentBuild.result = "FAILED"
+		echo 'END Build......' + e
         	throw e
    	} finally {
      		// Success or failure, always send notifications
-	    	notifyBuild(currentBuild.result)
+	    	//notifyBuild(currentBuild.result)
    	}
 }
 
