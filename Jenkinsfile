@@ -14,11 +14,12 @@ node('jenkins-slave') {
 			echo 'Pulling... ' + env.BRANCH_NAME
 			checkout scm
 			echo 'END Pulling SCM'
-			 fhi = readMavenPom().getArtifactId()
+			 pom = readMavenPom file: 'pom.xml'
+
 			//def project1 = new XmlSlurper().parseText(readFile('pom.xml'))
-			echo 'END Pulling SCM 1' + fhi
+			echo 'END Pulling SCM 1' 
 			//def pomv = project1.version.text()
-			echo 'END Pulling SCM ---------------------' + pomv
+			echo 'END Pulling SCM ---------------------' + pom
 		}
 
 		stage('Build') {
